@@ -1,0 +1,15 @@
+.cart{
+    background: #FFE0B3;
+    color: black;
+    padding: 25px;
+    position: sticky;
+    top: 0;
+}
+.cart h4{
+    font-size: 22px;
+    text-align: center;
+}
+.cart h5{
+    font-size: 20px;
+    font-weight: 400;
+}
