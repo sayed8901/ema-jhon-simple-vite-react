@@ -10,11 +10,15 @@ const cartProductsLoader = async () => {
     // anyway, as we are not storing data in real database right now, we are are not using async await at this moment..
 
     const storedCart = getShoppingCart();
-    
+
     const savedCart = [];
 
+
+    // function to find out the currently clicked item to add later on with the existing shoppingCart
+    // checking if the item is exists in the existing shoppingCart or not
     for(const id in storedCart){
         const addedProduct = products.find(pd => pd.id === id);
+        // if exists, updating the quanity
         if(addedProduct){
             const quantity = storedCart[id];
             addedProduct.quantity = quantity;
@@ -23,6 +27,7 @@ const cartProductsLoader = async () => {
     }
 
     console.log(products, storedCart, savedCart);
+    
     return savedCart;
 }
 

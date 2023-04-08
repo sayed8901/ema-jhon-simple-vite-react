@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import Cart from '../Cart/Cart';
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import ReviewItem from '../../ReviewItem/ReviewItem';
 import './Orders.css'
-import { removeFromDb } from '../../utilities/fakedb';
+import { deleteShoppingCart, removeFromDb } from '../../utilities/fakedb';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
 
 const Orders = () => {
     const savedCart = useLoaderData();
@@ -12,6 +14,8 @@ const Orders = () => {
 
     // console.log(savedCart, cart);
 
+
+    // function to find out the remaining cart by removing the clicked item
     const handleRemoveFromCart = (id) => {
         const remaining = cart.filter(pd => pd.id !== id);
         // to handle the changing status of cart
@@ -19,6 +23,15 @@ const Orders = () => {
 
         // to actually remove from database or in this case from localStorage, we are using 'removeFromDb' function created in 'fakebDb' utility component.
         removeFromDb(id);
+    }
+
+
+    // function to handle clear cart button
+    const handleClearCart = () => {
+        setCart([]);
+
+        // clearing the shoppingCart stored on localStorage. it is used from 'fakeDb'
+        deleteShoppingCart();
     }
     
     return (
@@ -34,7 +47,18 @@ const Orders = () => {
                 }
             </div>
             <div className='cart-container'>
-                <Cart cart={cart}></Cart>
+                <Cart 
+                    cart={cart}
+                    handleClearCart = {handleClearCart}
+                >
+                    {/* 'Proceed checkout' button passed to Cart component */}
+                    <Link to={'/checkout'} className="proceed-link">
+                        <button className='btn-proceed'>
+                            <span>Proceed Checkout</span>
+                            <FontAwesomeIcon icon={faCreditCard }/>
+                        </button>
+                    </Link>
+                </Cart>
             </div>
         </div>
     );

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { addToDb, getShoppingCart } from "../../utilities/fakedb";
+import { addToDb, deleteShoppingCart, getShoppingCart } from "../../utilities/fakedb";
 import Cart from "../Cart/Cart";
 import Product from "../Product/Product";
 import "./Shop.css";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -104,6 +107,15 @@ const Shop = () => {
   };
 
 
+  // function to handle clear cart button
+  const handleClearCart = () => {
+    setCart([]);
+
+    // clearing the shoppingCart stored on localStorage. it is used from 'fakeDb'
+    deleteShoppingCart();
+  }
+
+
   return (
     <div className="shop-container">
       <div className="products-container">
@@ -116,7 +128,18 @@ const Shop = () => {
         ))}
       </div>
       <div className="cart-container">
-        <Cart cart={cart}></Cart>
+        <Cart 
+          cart={cart}
+          handleClearCart={handleClearCart}
+        >
+          {/* 'Review order' button passed to Cart component */}
+          <Link to={'/order'} className="proceed-link">
+            <button className="btn-review">
+              <span>Review order</span>
+              <FontAwesomeIcon icon={faArrowRight }/>
+            </button>
+          </Link>
+        </Cart>
       </div>
     </div>
   );

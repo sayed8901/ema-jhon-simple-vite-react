@@ -13,3 +13,13 @@
     font-size: 20px;
     font-weight: 400;
 }
+.btn-clear-cart{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 95%;
+    margin: 10px auto;
+    background: #FF3030;
+    border-radius: 4px;
+    color: white;
+}

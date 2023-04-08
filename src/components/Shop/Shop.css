@@ -2,9 +2,25 @@
     display: grid;
     grid-template-columns: 4fr 1fr;
 }
+
 .products-container{
     margin: 50px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 45px;
+}
+
+.btn-review{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 95%;
+    margin: 10px auto;
+    background: #FF9900;
+    border-radius: 4px;
+    color: white;
+}
+
+.proceed-link{
+    text-decoration: none;
 }
