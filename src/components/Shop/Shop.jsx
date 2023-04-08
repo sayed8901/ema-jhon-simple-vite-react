@@ -18,8 +18,8 @@ const Shop = () => {
   useEffect( () => {
     const storedCart = getShoppingCart();
 
-    console.log(storedCart);
-    console.log('products', products);
+    // console.log(storedCart);
+    // console.log('products', products);
 
     // নতুন '‍addedProduct' কে একটি empty array তে রাখতে..
     const savedCart = [];
@@ -39,7 +39,7 @@ const Shop = () => {
 
         // step 3.2: set quantity for "addedProduct"
         addedProduct.quantity = quantity;
-        console.log('added product:', addedProduct);
+        // console.log('added product:', addedProduct);
 
         // step 4: add the 'addedProduct' to the 'savedCart'
         savedCart.push(addedProduct);
