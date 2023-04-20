@@ -1,26 +1,19 @@
 import React, { useContext, useState } from 'react';
-import './Login.css';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import './SignUp.css';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contextProviders/AuthProvider';
 
-const Login = () => {
+const SignUp = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
 
     const [showPassword, setShowPassword] = useState(false);
 
-    
-    const {loginUser} = useContext(AuthContext);
 
-    const navigate = useNavigate();
-    const location = useLocation();
-    // console.log(location);
-
-    const fromLocation = location.state?.from?.pathname || '/' ;
-    // console.log(fromLocation);
+    const {createUser} = useContext(AuthContext);
 
 
-    const handleLogin = (event) => {
+    const handleSignUp = (event) => {
         event.preventDefault();
 
         setErrorMsg('');
@@ -30,16 +23,39 @@ const Login = () => {
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        // console.log(email, password);
+        const confirmPassword = form.confirmPass.value;
+        // console.log(email, password, confirmPassword);
 
 
-        loginUser(email, password)
+        // validation
+        if(password !== confirmPassword){
+            setErrorMsg('Your password did not match!');
+            return;
+        }
+        else if(!/(?=.*[A-Z])/.test(password)){
+            setErrorMsg('Password should contain at least 1 uppercase letter');
+            return;
+        }
+        else if(!/(?=.*[0-9])/.test(password)){
+            setErrorMsg('Password should contain at least 1 number');
+            return;
+        }
+        else if(!/(?=.*[!@#$%^&*()--__+.])/.test(password)){
+            setErrorMsg('Password should contain a special character');
+            return;
+        }
+        // else if(!/(?=.{8})/.test(password)){
+        //     setErrorMsg('Password must have 8 character');
+        //     return;
+        // }
+
+
+        createUser(email, password)
         .then(result => {
-            const loggedUser = result.user;
-            console.log(loggedUser);
-            setSuccessMsg('User log in successful')
+            const newUser = result.user;
+            console.log(newUser);
+            setSuccessMsg('New user created successfully')
             form.reset();
-            navigate(fromLocation, {replace: true});
         })
         .catch(error => {
             console.log(error.message);
@@ -54,8 +70,8 @@ const Login = () => {
 
     return (
         <div className='form-container'>
-            <h2 className='form-title'>Log in</h2>
-            <form onSubmit={handleLogin}>
+            <h2 className='form-title'>Sign Up</h2>
+            <form onSubmit={handleSignUp}>
                 <div className='form-control'>
                     <label htmlFor="email">Email</label>
                     <input type="email" name="email" id="email" required placeholder='Your email' />
@@ -69,13 +85,22 @@ const Login = () => {
                     </div>
                     <input type={showPassword ? 'text' : 'password'} name="password" id="password" required placeholder='Password' />
                 </div>
+                <div className='form-control'>
+                    <div className='includeToggleBtn'>
+                        <label htmlFor="password">Confirm Password</label>
+                        <span onClick={handleToggle} className='toggleBtn'>
+                            {showPassword ? 'Hide' : 'Show'}
+                        </span>
+                    </div>
+                    <input type={showPassword ? 'text' : 'password'} name="password" id="passConfirm" required placeholder='Password' />
+                </div>
 
-                <input type="submit" className='btn-submit' value="Login" />
+                <input type="submit" className='btn-submit' value="Sign Up" />
             </form>
 
             <p className='toggle-container'>
-                <small>New to Ema-john? 
-                    <Link to={'/signup'}>Create New Account</Link>
+                <small>Already have an account? 
+                    <Link to={'/login'}>Login</Link>
                 </small>
             </p>
 
@@ -88,7 +113,7 @@ const Login = () => {
                 <p>Continue with Google</p>
             </button>
 
-            
+
             <p className={`message ${errorMsg ? 'error-msg' : 'success-msg'}`}>
                 {errorMsg ? errorMsg : successMsg}
             </p>
@@ -96,4 +121,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default SignUp;

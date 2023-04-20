@@ -19,3 +19,15 @@ nav.header a{
 nav.header a:hover{
     color: orange;
 }
+
+.user-info-text{
+    color: greenyellow;
+    margin: 0 20px;
+}
+
+.user-name-text{
+    color: cyan;
+    font-size: 24px;
+    font-weight: 700;
+    margin-left: 10px;
+}
