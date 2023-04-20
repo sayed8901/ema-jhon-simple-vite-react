@@ -22,7 +22,8 @@ nav.header a:hover{
 
 .user-info-text{
     color: greenyellow;
-    margin: 0 20px;
+    margin-left: 70px;
+    margin-right: 20px;
 }
 
 .user-name-text{

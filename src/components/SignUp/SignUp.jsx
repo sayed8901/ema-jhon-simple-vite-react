@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import './SignUp.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contextProviders/AuthProvider';
 
 const SignUp = () => {
@@ -10,7 +10,15 @@ const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
 
 
-    const {createUser} = useContext(AuthContext);
+    const {createUser, signInWithGoogle} = useContext(AuthContext);
+
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    // console.log(location);
+
+    const fromLocation = location.state?.from?.pathname || '/' ;
+    // console.log(fromLocation);
 
 
     const handleSignUp = (event) => {
@@ -63,6 +71,21 @@ const SignUp = () => {
         })
     }
 
+
+    const handleGoogleSignUp = () => {
+        signInWithGoogle()
+        .then(result => {
+            const successMessage = 'User successfully signed up with Google.'
+            console.log(result.user.displayName, successMessage);
+            setSuccessMsg(successMessage);
+            navigate(fromLocation, {replace: true});
+        })
+        .catch(error => {
+            setErrorMsg(error.message)
+        })
+    }
+
+
     const handleToggle = () => {
         setShowPassword(!showPassword);
     }
@@ -83,7 +106,7 @@ const SignUp = () => {
                             {showPassword ? 'Hide' : 'Show'}
                         </span>
                     </div>
-                    <input type={showPassword ? 'text' : 'password'} name="password" id="password" required placeholder='Password' />
+                    <input type={showPassword ? 'text' : 'password'} name="confirmPass" id="confirmPass" required placeholder='Password' />
                 </div>
                 <div className='form-control'>
                     <div className='includeToggleBtn'>
@@ -108,7 +131,7 @@ const SignUp = () => {
                 <hr /> or <hr />
             </div>
 
-            <button className='google-btn'>
+            <button onClick={handleGoogleSignUp} className='google-btn'>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/706px-Google_%22G%22_Logo.svg.png" alt="" />
                 <p>Continue with Google</p>
             </button>

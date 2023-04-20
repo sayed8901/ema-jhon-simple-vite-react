@@ -10,7 +10,8 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     
-    const {loginUser} = useContext(AuthContext);
+    const {loginUser, signInWithGoogle} = useContext(AuthContext);
+
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -46,6 +47,21 @@ const Login = () => {
             setErrorMsg(error.message);
         })
     }
+
+
+    const handleGoogleSignUp = () => {
+        signInWithGoogle()
+        .then(result => {
+            const successMessage = 'User successfully signed up with Google.'
+            console.log(result.user.displayName, successMessage);
+            setSuccessMsg(successMessage);
+            navigate(fromLocation, {replace: true});
+        })
+        .catch(error => {
+            setErrorMsg(error.message)
+        })
+    }
+
 
     const handleToggle = () => {
         setShowPassword(!showPassword);
@@ -83,7 +99,7 @@ const Login = () => {
                 <hr /> or <hr />
             </div>
 
-            <button className='google-btn'>
+            <button onClick={handleGoogleSignUp} className='google-btn'>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/706px-Google_%22G%22_Logo.svg.png" alt="" />
                 <p>Continue with Google</p>
             </button>
