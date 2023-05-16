@@ -17,7 +17,8 @@ const Orders = () => {
 
     // function to find out the remaining cart by removing the clicked item
     const handleRemoveFromCart = (id) => {
-        const remaining = cart.filter(pd => pd.id !== id);
+        const remaining = cart.filter(pd => pd._id !== id);
+        console.log(cart, id);
         // to handle the changing status of cart
         setCart(remaining);
 
@@ -39,7 +40,7 @@ const Orders = () => {
             <div className='review-container'>
                 {
                     cart.map(product => <ReviewItem
-                        key = {product.id}
+                        key = {product._id}
                         product = {product}
 
                         handleRemoveFromCart = {handleRemoveFromCart}
